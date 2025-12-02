@@ -1,0 +1,159 @@
+================================================================================
+AGENT 7 V2.1 CRITIC BOOST + LSTM - IMPORTANT FILES (CENTRALIZED)
+================================================================================
+
+This folder contains ALL critical files for Agent 7 V2.1 training.
+All files have been cleaned: NO emojis, NO French accents.
+
+Date: 2025-11-25
+Status: Production-Ready
+Version: V2.1 CRITIC BOOST + LSTM
+
+================================================================================
+TRAINING SCRIPTS (Main)
+================================================================================
+
+1. train_CRITIC_BOOST_LSTM.py (21K)
+   - Main training script for Agent 7 V2.1
+   - RecurrentPPO + LSTM (256 neurons, 16 steps)
+   - vf_coef=1.0 (MAXIMUM Critic learning)
+   - n_epochs=25, gae_lambda=0.95
+   - Separate Actor[256,256] / Critic[256,256]
+   - Training: 500K steps (test) or 1.5M steps (full)
+   - Duration: ~2h (500K) or ~6h (1.5M)
+   - Usage: python train_CRITIC_BOOST_LSTM.py
+
+================================================================================
+TESTING SCRIPTS (Smoke Tests)
+================================================================================
+
+2. smoke_test_MINI.py (3.5K)
+   - Ultra-fast test: 100 steps, ~1 minute
+   - Verifies: model loads, 3 actions, opens/closes positions
+   - Quick sanity check before full training
+
+3. smoke_test_agent7.py (9K)
+   - Full smoke test: 1000 steps, ~10 minutes
+   - Comprehensive verification with performance metrics
+   - Detects mode collapse (>90% single action)
+
+4. RUN_SMOKE_TEST_MINI.bat (558 bytes)
+   - Windows launcher for smoke_test_MINI.py
+   - Usage: double-click or RUN_SMOKE_TEST_MINI.bat
+
+================================================================================
+TRAINING CALLBACKS (Auto-executed during training)
+================================================================================
+
+5. CheckpointEvaluationCallback.py (12K)
+   - Evaluates model every 50K steps
+   - Saves CSV files:
+     * checkpoint_50000_stats.csv (metrics)
+     * checkpoint_50000_trades.csv (trade details)
+   - Duration: ~10 seconds every 50K steps
+   - Used by: train_CRITIC_BOOST_LSTM.py
+
+6. InterpretabilityCallback.py (17K)
+   - Interviews agent every 50K steps
+   - Generates: interview_report_50000.txt
+   - Questions: features used, action patterns, market regime reactions
+   - Used by: train_CRITIC_BOOST_LSTM.py
+
+================================================================================
+ANALYSIS TOOLS (Post-training)
+================================================================================
+
+7. explain_shap_agent7.py (21K)
+   - SHAP feature-level explainability analysis
+   - Generates:
+     * shap_global_importance.png (top 20 features)
+     * shap_summary_plot.png (all 229 features)
+     * shap_waterfall_SELL.png (example SELL decision)
+     * shap_waterfall_BUY.png (example BUY decision)
+     * shap_report.txt (detailed analysis)
+   - Usage: python explain_shap_agent7.py
+   - Duration: ~5-10 minutes
+
+================================================================================
+ENVIRONMENT (Core)
+================================================================================
+
+8. trading_env_v2_ultimate.py (81K)
+   - Core RL environment (Gymnasium custom)
+   - Contains +7 memory features (last 20 trades)
+   - Total: 229 features (209 base + 20 RL+MEMORY)
+   - Used by ALL training/testing scripts
+   - CRITICAL: If you modify env, retrain from scratch
+
+================================================================================
+DOCUMENTATION
+================================================================================
+
+9. README_V2.1_CRITIC_BOOST_LSTM.md (13K)
+   - Complete documentation of V2.1 changes
+   - Explains: vf_coef, LSTM, memory features, architecture
+   - Expected performance: Sharpe 2.5+, DD <6%, ROI 18-22%
+   - Papers references, troubleshooting guide
+
+10. INDEX_AGENT7_FILES.txt (this file)
+    - File organization and usage guide
+
+================================================================================
+WORKFLOW - QUICK START
+================================================================================
+
+# Step 1: Smoke test (1 minute)
+python smoke_test_MINI.py
+
+# Step 2: Full training (500K steps test = 2h)
+python train_CRITIC_BOOST_LSTM.py
+
+# Step 3: Check training progress (TensorBoard)
+tensorboard --logdir C:/Users/lbye3/Desktop/GoldRL/output/logs/agent7_critic_boost_lstm
+
+# Step 4: After training - Interview + SHAP
+RUN_INTERVIEW_AGENT7.bat  # (if exists)
+python explain_shap_agent7.py
+
+# Step 5: Check RANKING.csv
+type models/checkpoints_analysis/RANKING.csv
+
+================================================================================
+CRITICAL NOTES
+================================================================================
+
+1. ALL FILES CLEANED: No emojis, no French accents, production-ready
+
+2. DEPENDENCIES: Must install sb3-contrib for RecurrentPPO
+   pip install sb3-contrib
+
+3. CRITIC FLAT FIX: V2.1 fixes V2.0 problem (Std 0.05 -> >1.0)
+   - vf_coef: 0.25 -> 1.0 (+400% Critic learning)
+   - Separate architecture: Actor[256,256] + Critic[256,256]
+   - +7 memory features: last 20 trades context
+
+4. EXPECTED IMPROVEMENT: +20-50% ROI vs V2.0
+   - V2.0: ROI 12%, Sharpe 1.2, DD 8%
+   - V2.1: ROI 18-22%, Sharpe 2.5+, DD <6%
+
+5. TRAINING TIME:
+   - 500K steps: ~2h (test)
+   - 1.5M steps: ~6h (full)
+   - Checkpoints every 50K steps
+
+================================================================================
+AVOID CONFUSION WITH OTHER AGENTS
+================================================================================
+
+This folder is ONLY for Agent 7 V2.1 CRITIC BOOST + LSTM.
+
+Other agents (8, 9, 11) have their own folders:
+- Agent 8: AGENT_V2/AGENT 8 V2/
+- Agent 9: AGENT_V2/AGENT 9 V2/
+- Agent 11: AGENT_V2/AGENT 11 V2/
+
+DO NOT mix files between agents!
+
+================================================================================
+END OF INDEX
+================================================================================

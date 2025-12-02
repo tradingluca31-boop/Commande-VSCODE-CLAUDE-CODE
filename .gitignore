@@ -1,0 +1,76 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# PyCharm
+.idea/
+
+# VS Code
+.vscode/
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Trained Models (too large for GitHub)
+*.zip
+*.h5
+*.pt
+*.pth
+*.pkl
+*.pickle
+models/
+checkpoints/
+
+# Logs and outputs (too large)
+logs/
+output/
+*.log
+*.csv
+*.json
+
+# TensorBoard
+events.out.tfevents.*
+
+# Data files (private - DO NOT PUSH)
+data/
+*.csv
+*.xlsx
+*.xls
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
+
+# SHAP analysis outputs
+shap_analysis/
+*.png
+*.jpg
+*.jpeg
+
+# Backup files
+*_backup*
+*_old*
+*.backup
+
+# WARNING: These files contain your actual trading data - NEVER push them
+# Add specific paths if needed

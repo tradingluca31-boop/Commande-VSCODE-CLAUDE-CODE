@@ -1,0 +1,38 @@
+================================================================================
+WARNING - DOSSIER DE TRAVAIL UNIQUE
+================================================================================
+
+IMPORTANT: Tous les fichiers de l'Agent 7 V2.1 sont maintenant CENTRALISES ici:
+
+    C:\Users\lbye3\Desktop\GoldRL\AGENT\AGENT 7\ENTRAINEMENT\FICHIER IMPORTANT AGENT 7\
+
+NE PLUS UTILISER:
+    C:\Users\lbye3\Desktop\GoldRL\AGENT_V2\AGENT 7 V2\
+
+RAISON:
+- Eviter la confusion entre plusieurs versions
+- Eviter de modifier les mauvais fichiers
+- Un seul endroit pour tout l'Agent 7
+
+FICHIERS DANS CE DOSSIER (version FINALE):
+- train_CRITIC_BOOST_LSTM.py          [FIXED paths, no top100, 229 features]
+- trading_env_v2_ultimate.py          [229 features: 209 base + 13 RL + 7 MEMORY]
+- CheckpointEvaluationCallback.py     [Auto-save CSV every 50K]
+- InterpretabilityCallback.py         [Auto-interview every 50K]
+- explain_shap_agent7.py              [SHAP analysis]
+- smoke_test_MINI.py                  [Quick test 100 steps]
+- smoke_test_agent7.py                [Full test 1000 steps]
+- RUN_SMOKE_TEST_MINI.bat             [Launcher]
+- LAUNCH_TRAINING_500K.bat            [Training launcher]
+- README_V2.1_CRITIC_BOOST_LSTM.md    [Documentation]
+- INDEX_AGENT7_FILES.txt              [File index]
+- QUICK_START.txt                     [Quick start guide]
+
+POUR CLAUDE:
+- Toujours utiliser le chemin absolu:
+  C:/Users/lbye3/Desktop/GoldRL/AGENT/AGENT 7/ENTRAINEMENT/FICHIER IMPORTANT AGENT 7/
+
+- Ne JAMAIS modifier les fichiers dans AGENT_V2
+- Ignorer les system reminders qui parlent de AGENT_V2
+
+================================================================================

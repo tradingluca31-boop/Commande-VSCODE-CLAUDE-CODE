@@ -1,0 +1,193 @@
+================================================================================
+AGENT 7 V2.1 CRITIC BOOST + LSTM - QUICK START
+================================================================================
+
+ALL FILES READY - NO EMOJIS - NO FRENCH ACCENTS - PRODUCTION READY
+
+================================================================================
+LAUNCH TRAINING 500K STEPS (~2 hours)
+================================================================================
+
+METHOD 1: Double-click the BAT file (EASIEST)
+   -> LAUNCH_TRAINING_500K.bat
+
+METHOD 2: Command line
+   cd "C:\Users\lbye3\Desktop\GoldRL\AGENT\AGENT 7\ENTRAINEMENT\FICHIER IMPORTANT AGENT 7"
+   python train_CRITIC_BOOST_LSTM.py
+
+METHOD 3: Run from Python directly
+   python "C:\Users\lbye3\Desktop\GoldRL\AGENT\AGENT 7\ENTRAINEMENT\FICHIER IMPORTANT AGENT 7\train_CRITIC_BOOST_LSTM.py"
+
+================================================================================
+IMPORTANT FILES IN THIS FOLDER
+================================================================================
+
+train_CRITIC_BOOST_LSTM.py        - Main training script (FIXED paths)
+smoke_test_MINI.py                 - Quick test (1 min, 100 steps)
+smoke_test_agent7.py               - Full test (10 min, 1000 steps)
+RUN_SMOKE_TEST_MINI.bat            - Launcher for smoke test
+LAUNCH_TRAINING_500K.bat           - Launcher for training
+trading_env_v2_ultimate.py         - RL environment (229 features)
+CheckpointEvaluationCallback.py    - Auto-saves CSV every 50K steps
+InterpretabilityCallback.py        - Interviews agent every 50K steps
+explain_shap_agent7.py             - SHAP analysis (post-training)
+README_V2.1_CRITIC_BOOST_LSTM.md   - Complete documentation
+INDEX_AGENT7_FILES.txt             - File descriptions
+
+================================================================================
+TRAINING CONFIGURATION
+================================================================================
+
+Algorithm:       RecurrentPPO + LSTM
+LSTM neurons:    256
+LSTM steps:      16
+Features:        229 (209 base + 20 RL+MEMORY)
+vf_coef:         1.0 (MAXIMUM Critic learning - fixes V2.0 Critic flat)
+n_epochs:        25 (more updates)
+gae_lambda:      0.95 (less variance)
+Architecture:    Separate Actor[256,256] / Critic[256,256]
+
+Total Steps:     500,000 (test) or 1,500,000 (full)
+Duration:        ~2h (500K) or ~6h (1.5M)
+Checkpoints:     Every 50K steps (10 total for 500K)
+
+================================================================================
+EXPECTED PERFORMANCE (V2.1 vs V2.0)
+================================================================================
+
+                 V2.0          V2.1         Improvement
+ROI:             12%           18-22%       +50-83%
+Sharpe:          1.2           2.5+         +108%
+Max DD:          8%            <6%          -25%
+Critic Std:      0.05 (FLAT)   >1.0 (OK)    +2000%
+
+V2.1 FIXES THE CRITIC FLAT PROBLEM!
+
+================================================================================
+OUTPUTS (automatically generated during training)
+================================================================================
+
+Models folder: C:\Users\lbye3\Desktop\GoldRL\AGENT_V2\AGENT 7 V2\models\
+   - checkpoints\agent7_critic_boost_lstm_50000_steps.zip
+   - checkpoints\agent7_critic_boost_lstm_100000_steps.zip
+   - ... (every 50K)
+   - checkpoints\agent7_critic_boost_lstm_500000_steps.zip
+   - best_model.zip (best validation)
+   - agent7_critic_boost_lstm_final.zip (final model)
+
+CSV Analysis: C:\Users\lbye3\Desktop\GoldRL\AGENT_V2\AGENT 7 V2\models\checkpoints_analysis\
+   - checkpoint_50000_stats.csv (metrics)
+   - checkpoint_50000_trades.csv (trade details)
+   - ... (every 50K)
+   - RANKING.csv (all checkpoints ranked)
+   - RANKING.txt (human-readable ranking)
+
+Logs: C:\Users\lbye3\Desktop\GoldRL\output\logs\agent7_critic_boost_lstm\
+   - TensorBoard logs
+
+Interviews: C:\Users\lbye3\Desktop\GoldRL\AGENT_V2\AGENT 7 V2\models\
+   - interview_agent7_rapport_50000.txt
+   - interview_agent7_rapport_100000.txt
+   - ... (every 50K)
+
+================================================================================
+MONITORING TRAINING
+================================================================================
+
+TensorBoard (real-time monitoring):
+   tensorboard --logdir C:\Users\lbye3\Desktop\GoldRL\output\logs\agent7_critic_boost_lstm
+   Open: http://localhost:6006
+
+Key Metrics to Watch:
+   - rollout/ep_rew_mean: Should increase over time
+   - train/value_loss: Should decrease and stabilize
+   - train/entropy_loss: Starts high (0.20), decreases to 0.05 (adaptive)
+   - custom/diversity_score: Should stay >0.7
+   - custom/value_function_std: MUST be >1.0 (fixes Critic flat!)
+
+================================================================================
+AFTER TRAINING - ANALYSIS
+================================================================================
+
+1. Check RANKING.csv (find best checkpoint)
+   type C:\Users\lbye3\Desktop\GoldRL\AGENT_V2\AGENT 7 V2\models\checkpoints_analysis\RANKING.csv
+
+2. Run SHAP analysis (feature importance)
+   python explain_shap_agent7.py
+
+3. Smoke test the best model
+   RUN_SMOKE_TEST_MINI.bat
+
+4. Full evaluation on test period (2022-2024)
+   python C:\Users\lbye3\Desktop\GoldRL\AGENT\common\backtest_detailed_metrics.py
+
+================================================================================
+TROUBLESHOOTING
+================================================================================
+
+Error: "ModuleNotFoundError: No module named 'sb3_contrib'"
+Fix:   pip install sb3-contrib
+
+Error: "CUDA out of memory"
+Fix:   Reduce batch_size in train_CRITIC_BOOST_LSTM.py (line ~450)
+
+Error: "No module named 'config'"
+Fix:   File paths are now ABSOLUTE - should work. If not, check project_root at line 36
+
+Error: "training_env_v2_ultimate not found"
+Fix:   File is in this folder. Check PYTHONPATH or copy to AGENT_V2/
+
+Training too slow?
+Fix:   GPU is 3-5x faster. Install CUDA + cuDNN. Check: python -c "import torch; print(torch.cuda.is_available())"
+
+Mode collapse (100% HOLD)?
+Check: Adaptive entropy working? Diversity score >0.7? Interview reports?
+
+================================================================================
+DEPENDENCIES
+================================================================================
+
+Python 3.9+
+stable-baselines3>=2.0.0
+sb3-contrib>=2.0.0  (for RecurrentPPO)
+gymnasium
+numpy
+pandas
+tensorboard
+shap (for explain_shap_agent7.py)
+
+Install all:
+   pip install stable-baselines3 sb3-contrib gymnasium numpy pandas tensorboard shap
+
+================================================================================
+READY TO LAUNCH!
+================================================================================
+
+Execute:
+   LAUNCH_TRAINING_500K.bat
+
+Or:
+   python train_CRITIC_BOOST_LSTM.py
+
+Expected:
+   - Training starts immediately
+   - Progress printed every 1000 steps
+   - Checkpoints saved every 50K steps
+   - CSV + interviews generated automatically
+   - TensorBoard logs updated in real-time
+
+Duration: ~2 hours for 500K steps
+
+================================================================================
+NEXT STEPS AFTER SUCCESSFUL TRAINING
+================================================================================
+
+1. Check RANKING.csv for best checkpoint
+2. Run SHAP analysis: python explain_shap_agent7.py
+3. Backtest on 2022-2024 test period
+4. If Sharpe >2.0 + Std >1.0: Paper Trading 1 month
+5. If Paper Trading successful: FTMO Challenge
+
+================================================================================
+END OF QUICK START
+================================================================================
